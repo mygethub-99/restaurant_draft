@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for, f
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 #changed the name of database builder and added user and other new columns to the restaurant table.
-from dbmapcat import Base, Restaurant, MenuItem, User
+from jan24db import Base, Restaurant, MenuItem, User, Cuisine
 from flask import session as login_session
 import random
 import string
@@ -290,14 +290,15 @@ def restaurantsJSON():
 
 # Show all restaurants
 @app.route('/')
-@app.route('/restaurant/')
+@app.route('/restaurant/') 
 def showRestaurants():
     restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
-    cuisine = session.query(Restaurant).order_by(asc(Restaurant.category))
+    cuisine = session.query(Restaurant).order_by(asc(Restaurant.cuisine_cat))
+    food = "greek"
     if 'username' not in login_session:
         return render_template('publicrestaurants.html', restaurants=restaurants)
     else:
-        return render_template('restSelectDelete.html', restaurants=restaurants)
+        return render_template('restSelectDelete.html', restaurants=restaurants, food = food )
 
 
 # Create a new restaurant
@@ -372,10 +373,14 @@ def showMenu(restaurant_id):
         return render_template('menu.html', items=items, restaurant=restaurant, creator=creator)
 
 #Show Cuisine Restaurant
-@app.route('/restaurant/cuisine/')
-def showRestCuisine(cuisineName):
-    this.catCuisine = session.query(Restaurant).filter_by(category= cuisineName).all()
-    return render_template('public_greek1222.html', greekFood=catCuisine)
+@app.route('/restaurant/cuisine/<string:Greek>/')
+def showRestCuisine(Greek):
+    
+    
+    
+    print Greek
+    #catCuisine = session.query(Restaurant).filter_by(category= cuisine).all()
+    #return render_template('public_greek1222.html', greek=cuisine)
 
 # Create a new menu item
 @app.route('/restaurant/<int:restaurant_id>/menu/new/', methods=['GET', 'POST'])
