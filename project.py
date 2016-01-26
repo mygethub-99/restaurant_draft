@@ -294,7 +294,7 @@ def restaurantsJSON():
 def showRestaurants():
     restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
     cuisine = session.query(Restaurant).order_by(asc(Restaurant.cuisine_cat))
-    food = "greek"
+    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegitarian']
     if 'username' not in login_session:
         return render_template('publicrestaurants.html', restaurants=restaurants)
     else:
@@ -373,14 +373,13 @@ def showMenu(restaurant_id):
         return render_template('menu.html', items=items, restaurant=restaurant, creator=creator)
 
 #Show Cuisine Restaurant
-@app.route('/restaurant/cuisine/<string:Greek>/')
-def showRestCuisine(Greek):
-    
-    
-    
-    print Greek
-    #catCuisine = session.query(Restaurant).filter_by(category= cuisine).all()
-    #return render_template('public_greek1222.html', greek=cuisine)
+@app.route('/restaurant/cuisine/<string:cuisine>/')
+def showRestCuisine(cuisine):
+    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegitarian']      
+    catCuisine = session.query(Restaurant).filter_by(cuisine_cat= cuisine).all()
+    return render_template('restSelectDelete.html', restaurants=catCuisine, food=food)
+    #except Exception, e:
+        #return(str(e))
 
 # Create a new menu item
 @app.route('/restaurant/<int:restaurant_id>/menu/new/', methods=['GET', 'POST'])
