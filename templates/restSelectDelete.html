@@ -16,12 +16,12 @@
           <a class="dropdown-toggle" data-toggle="dropdown">What ya hungry for?
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
-          	<li><a href="http://localhost:5000/restaurant/cuisine/greek/"
-            >{{food}}</a></li>
-            <li><a href="#">Italian</a></li>
-            <li><a href="#">American</a></li>
-            <li><a href="#">Asian</a></li>
-            <li><a href="#">Vegetarian</a></li>
+          	<li><a href="http://localhost:5000/restaurant/cuisine/Greek/"
+            >{{food[3]}}</a></li>
+            <li><a href="#">{{food[1]}}</a></li>
+            <li><a href="#">{{food[2]}}</a></li>
+            <li><a href="#">{{food[0]}}</a></li>
+            <li><a href="#">{{food[4]}}</a></li>
           </ul>
         </li>
         <li><a href="{{url_for('newRestaurant')}}">Add Restaurant</a></li>
@@ -32,3 +32,61 @@
   </div>
 </nav>
 </div>
+
+
+
+
+
+	<div class="row top-menu">
+		<div class="col-md-10"></div>
+		<div class="col-md-2 text-right">
+					</div>
+	</div>
+	<div class="row divider blue">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner main">
+		<div class="col-md-1"></div>
+		<div class="col-md-11 padding-none">
+			<h1>Restaurants</h1>
+		</div>
+	</div>
+
+
+
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+	<div class="row padding-top padding-bottom">
+		<div class="col-md-1"></div>
+		<div class="col-md-10 padding-none">
+			
+		</div>
+	
+		<div class="col-md-1"></div>
+	</div>
+	{% for restaurant in restaurants %}
+		<a href = "{{url_for('showMenu', restaurant_id = restaurant.id)}}">
+			<div class="row padding-top padding-bottom">
+				<div class="col-md-6 restaurant-list">
+						<h3>{{restaurant.name}}</h3>
+						<h4>{{restaurant.address}}</h4>
+						</div>
+					<div class="col-md-6 restaurant-list"> 
+					<h4>{{restaurant.phone}}</h4>
+					<h3>Health Rating: {{restaurant.health_rating}}</h3>
+				</div>
+			</div>
+		</a>
+	{% endfor %}
+{% endblock %}
