@@ -294,7 +294,7 @@ def restaurantsJSON():
 def showRestaurants():
     restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
     cuisine = session.query(Restaurant).order_by(asc(Restaurant.cuisine_cat))
-    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegitarian']
+    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegetarian', 'Mexican', 'All']
     if 'username' not in login_session:
         return render_template('publicrestaurants.html', restaurants=restaurants)
     else:
@@ -372,10 +372,10 @@ def showMenu(restaurant_id):
     else:
         return render_template('menu.html', items=items, restaurant=restaurant, creator=creator)
 
-#Show Cuisine Restaurant
+#Filter on a single type of cuisine.
 @app.route('/restaurant/cuisine/<string:cuisine>/')
 def showRestCuisine(cuisine):
-    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegitarian']      
+    food = ['Asian', 'Italian', 'American', 'Greek', 'Vegetarian', 'Mexican', 'All']      
     catCuisine = session.query(Restaurant).filter_by(cuisine_cat= cuisine).all()
     return render_template('restSelectDelete.html', restaurants=catCuisine, food=food)
     #except Exception, e:
@@ -395,7 +395,7 @@ def newMenuItem(restaurant_id):
         flash('New Menu %s Item Successfully Created' % (newItem.name))
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
-        return render_template('newmenuitem.html', restaurant_id=restaurant_id)
+        return render_template('newmenuitem.html', restaurant_id=restaurant_id, restaurant = restaurant)
 
 # Edit a menu item
 
